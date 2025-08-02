@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone Code') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Anjalmaraskole/DevOps-Project-1.git'
+            } 
+        }         
+
+        stage('Build') {
+            steps {
+                echo "Project build started"
+                sh 'python3 --version'
+                sh 'docker --version'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                echo "Docker build"
+                sh 'docker build -t my-django-app:latest .'
+            }
+        }
+
+        stage('Docker Run') {
+            steps {
+                echo "Docker running container"
+                sh 'docker run -d -p 8000:8000 my-django-app:latest'
+            }
+        }
+    } 
+}
+
+    
+
